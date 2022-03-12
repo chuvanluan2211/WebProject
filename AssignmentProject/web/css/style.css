@@ -2259,3 +2259,7 @@ footer a {
 a .active{
   color: white;
 }
+.nav-link a{
+  font-size: 240%;
+
+}
