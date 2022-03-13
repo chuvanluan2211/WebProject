@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,26 +40,35 @@ public class LoginServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String username = request.getParameter("user");
             String password = request.getParameter("pass");
-            
+            String remember = request.getParameter("remember");
+
             ProductDAO db = new ProductDAO();
-            Login lo= db.getAccount(username, password);
-            if(lo ==null){
-                
+            Login lo = db.getAccount(username, password);
+            if (lo == null) {
+
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
-            }else{
-               response.sendRedirect("Home");
+            } else {
+                HttpSession ses = request.getSession();
+                ses.setAttribute("acc", lo);
+
+                Cookie u = new Cookie("userc", username);
+                Cookie p = new Cookie("passc", password);
+                u.setMaxAge(60);
+                if (remember != null) {
+                    p.setMaxAge(60);
+                } else {
+                    p.setMaxAge(0);
+                }
+                response.addCookie(u);
+                response.addCookie(p);
+
+                response.sendRedirect("Home");
             }
 
-
-            
-            
-            
-            
-            
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
@@ -78,7 +89,19 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        Cookie arr[] = request.getCookies();
+        if(arr != null){
+            for (Cookie o : arr) {
+            if (o.getName().equals("userc")) {
+                request.setAttribute("username", o.getValue());
+            }
+            if (o.getName().equals("passc")) {
+                request.setAttribute("password", o.getValue());
+            }
+        }
+        }
+        request.getRequestDispatcher("Login.jsp").forward(request, response);
     }
 
     /**

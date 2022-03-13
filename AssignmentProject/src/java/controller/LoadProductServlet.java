@@ -6,7 +6,7 @@
 package controller;
 
 import dao.ProductDAO;
-import entity.Login;
+import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author laptop 2019
  */
-@WebServlet(name = "SignupServlet", urlPatterns = {"/signup"})
-public class SignupServlet extends HttpServlet {
+@WebServlet(name = "LoadProductServlet", urlPatterns = {"/loadproduct"})
+public class LoadProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,32 +36,20 @@ public class SignupServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String username = request.getParameter("user");
-            String password = request.getParameter("pass");
-            String repassword = request.getParameter("repass");
+            String id = request.getParameter("pid");
+            ProductDAO db = new ProductDAO();
+            Product p = db.getById(id);
+            request.setAttribute("detail", p);
+            request.getRequestDispatcher("Edit.jsp").forward(request, response);
             
-            if(password != repassword){
-                response.sendRedirect("Login.jsp");
-            }else{
-                            ProductDAO db = new ProductDAO();
-                            Login a = db.checkAccount(username);
-                            if(a==null){
-                                db.signUp(username, password);
-                                response.sendRedirect("Home");
-                            }else{
-                                response.sendRedirect("Login.jsp");
-                            }
-
-            }
-
             
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SignupServlet</title>");            
+            out.println("<title>Servlet LoadProductServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SignupServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoadProductServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

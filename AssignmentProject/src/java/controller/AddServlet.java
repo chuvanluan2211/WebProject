@@ -14,13 +14,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author laptop 2019
  */
-@WebServlet(name = "SignupServlet", urlPatterns = {"/signup"})
-public class SignupServlet extends HttpServlet {
+@WebServlet(name = "AddServlet", urlPatterns = {"/add"})
+public class AddServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,32 +37,29 @@ public class SignupServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String username = request.getParameter("user");
-            String password = request.getParameter("pass");
-            String repassword = request.getParameter("repass");
+            String name = request.getParameter("name");
+            String image = request.getParameter("image");
+            String price = request.getParameter("price");
+            String title = request.getParameter("title");
+            String description = request.getParameter("description");
+            HttpSession ses = request.getSession();
+            Login a = (Login) ses.getAttribute("acc");
+            int id = a.getId();
             
-            if(password != repassword){
-                response.sendRedirect("Login.jsp");
-            }else{
-                            ProductDAO db = new ProductDAO();
-                            Login a = db.checkAccount(username);
-                            if(a==null){
-                                db.signUp(username, password);
-                                response.sendRedirect("Home");
-                            }else{
-                                response.sendRedirect("Login.jsp");
-                            }
+                    ProductDAO db = new ProductDAO();
+                    db.add(name, image, price, title, description, id);
+                    response.sendRedirect("manager");
 
-            }
 
+            
             
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SignupServlet</title>");            
+            out.println("<title>Servlet AddServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SignupServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
