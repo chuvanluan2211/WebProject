@@ -37,21 +37,35 @@ public class HomeServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             ProductDAO db = new ProductDAO();
-        List<Product> list = db.getAllProduct();
-        Product last = db.getLast();
-            
-        request.setAttribute("lists", list);
-                request.setAttribute("p", last);
+            List<Product> lists = db.getAllProduct();
+            Product last = db.getLast();
+            int page, numperpage = 6;
+            int size = lists.size();
+            String x = request.getParameter("page");
+            int num = (size % numperpage == 0 ? (size / numperpage) : ((size / numperpage) + 1));
 
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
-            
-            
-            
-            
+            if (x == null) {
+                page = 1;
+            } else {
+                page = Integer.parseInt(x);
+            }
+            int start, end;
+            start = (page - 1) * numperpage;
+            end = Math.min(page * numperpage, size);
+
+            List<Product> list = db.getListByPage(lists, start, end);
+
+            request.setAttribute("data", list);
+            request.setAttribute("page", page);
+            request.setAttribute("num", num);
+            request.setAttribute("p", last);
+            request.getRequestDispatcher("Home.jsp").forward(request, response);
+
+            //request.getRequestDispatcher("Home.jsp").forward(request, response);
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");            
+            out.println("<title>Servlet HomeServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet HomeServlet at " + request.getContextPath() + "</h1>");

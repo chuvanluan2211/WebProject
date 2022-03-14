@@ -63,9 +63,10 @@
 		<div class="container">
 			<div class="row">
 			<jsp:include page="Left.jsp"></jsp:include>
+			<form action="Home" method="post">
 				<div class="col-sm-9">
 					<div id="content" class="row">
-					<c:forEach items="${lists}" var="o">
+					<c:forEach items="${requestScope.data}" var="o">
 						<div class="product col-12 col-md-6 col-lg-4">
 							<div class="card">
 								<img class="img-responsive" src="./images/${o.image}" alt="Card image cap">
@@ -85,6 +86,12 @@
 						</div>
 					</c:forEach>
 				</div>
+				<c:set var="page" value="${requestScope.page}">
+            </c:set>
+            <c:forEach begin="${1}" end="${requestScope.num}" var="i">
+                <a href="Home?page=${i}">${i}</a>
+            </c:forEach>
+			</form>
 			</div>
 
 		</div>

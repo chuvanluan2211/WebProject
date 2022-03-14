@@ -237,7 +237,7 @@ public class ProductDAO {
 
     }
 
-    public void signUp(String user, String pass) {
+    public void signUp(String username, String password) {
         String query = "insert into Account\n"
                 + "values (?,?,0,0)";
 
@@ -248,8 +248,8 @@ public class ProductDAO {
         try {
             conn = Model.getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1, user);
-            ps.setString(2, pass);
+            ps.setString(1, username);
+            ps.setString(2, password);
             ps.executeUpdate();
         } catch (Exception e) {
         }
@@ -329,7 +329,7 @@ public class ProductDAO {
         try {
             conn = Model.getConnection();
             ps = conn.prepareStatement(query);
-
+            
             rs = ps.executeQuery();
             while (rs.next()) {
                 Product a = new Product(rs.getInt(1),
@@ -348,6 +348,13 @@ public class ProductDAO {
         }
         return list;
 
+    }
+    public  List<Product> getListByPage(List<Product> list, int start, int end){
+        ArrayList<Product> a = new ArrayList<>();
+        for (int i = start; i <end; i++) {
+            a.add(list.get(i));
+        }
+        return a;
     }
 
     public static void main(String[] args) {

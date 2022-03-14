@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author laptop 2019
  */
-@WebServlet(name = "SignupServlet", urlPatterns = {"/signup"})
+@WebServlet(name = "SignupServlet", urlPatterns = {"/Signup"})
 public class SignupServlet extends HttpServlet {
 
     /**
@@ -34,13 +34,12 @@ public class SignupServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String username = request.getParameter("user");
             String password = request.getParameter("pass");
             String repassword = request.getParameter("repass");
             
-            if(password != repassword){
+            if(!password.equals(repassword)){
                 response.sendRedirect("Login.jsp");
             }else{
                             ProductDAO db = new ProductDAO();
@@ -49,22 +48,14 @@ public class SignupServlet extends HttpServlet {
                                 db.signUp(username, password);
                                 response.sendRedirect("Home");
                             }else{
+                                request.setAttribute("mess", "signup failed");
                                 response.sendRedirect("Login.jsp");
                             }
 
             }
 
             
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SignupServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SignupServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
