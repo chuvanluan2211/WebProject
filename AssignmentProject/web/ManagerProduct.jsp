@@ -36,7 +36,6 @@
                         </div>
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                         </div>
                     </div>
                 </div>
@@ -80,7 +79,7 @@
                     </tbody>
                 </table>
                 
-            <a href="Home.jsp"><button type="button" class="btn btn-primary">Back to home</button>
+            <a href="Home"><button type="button" class="btn btn-primary">Back to home</button>
 
         </div>
         <!-- Edit Modal HTML -->
