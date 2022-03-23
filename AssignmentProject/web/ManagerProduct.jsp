@@ -37,9 +37,6 @@
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
                         </div>
-                        <div class="col-sm-6">
-                            <a href="Home"><button type="button" class="btn btn-primary">Back to home</button>
-                        </div>
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
@@ -75,7 +72,7 @@
                                 <td>${o.price} $</td>
                                 <td>
                                     <a href="loadproduct?pid=${o.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="delete?pid=${o.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a href="#" onclick="showmess(${o.id})" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -125,8 +122,17 @@
                 </div>
             </div>
         </div>
-                   
-
+                                        
+                    <a href="#"><button type="button" class="btn btn-primary">Back to home</button>
+                        <script>
+                            function showmess(id){
+                                var option = confirm('xác nhận xóa sản phẩm');
+                                if(option == true){
+                                    window.location.href = 'delete?pid='+id;
+                                }
+                            }
+                            
+                        </script>
     <script src="js/manager.js" type="text/javascript"></script>
 </body>
 </html>

@@ -89,7 +89,7 @@
 				<c:set var="page" value="${requestScope.page}">
             </c:set>
             <c:forEach begin="${1}" end="${requestScope.num}" var="i">
-                <a href="Home?page=${i}">${i}</a>
+                <a href="Home?page=${i}">${i} | </a>
             </c:forEach>
 			</form>
 			</div>
