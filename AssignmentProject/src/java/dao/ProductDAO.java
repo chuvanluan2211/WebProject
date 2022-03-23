@@ -356,6 +356,74 @@ public class ProductDAO {
         }
         return a;
     }
+    public List<Login> adminAccount() {
+        String query = "select * from Account";
+                
+                List<Login> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Model.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Login a = new Login(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getInt(5)
+                );
+                 list.add(a);
+
+            }
+
+        } catch (Exception e) {
+
+        }
+        return list;
+
+    }
+    public void deleteA(String aid) {
+        String query = "delete from Account\n"
+                + "where [uID] = ?";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Model.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, aid);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    public void addA(String id, String user, String pass, String sell, String admin) {
+        String query = "INSERT [dbo].[Account]\n" +
+"               ([uID], [user]\n" +
+"      ,[pass]\n" +
+"      ,[isSell]\n" +
+"      ,[isAdmin]) VALUES ( ?,?,?,?,?)";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Model.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, id);
+            ps.setString(2, user);
+            ps.setString(3, pass);
+            ps.setString(4, sell);
+            ps.setString(5, admin);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+
 
     public static void main(String[] args) {
         ProductDAO db = new ProductDAO();

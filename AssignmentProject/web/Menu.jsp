@@ -19,7 +19,7 @@
             <ul class="navbar-nav m-auto">
                 <c:if test="${sessionScope.acc.isAdmin == 1}">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">ManagerAccount</a>
+                        <a class="nav-link" href="admin">ManagerAccount</a>
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.acc.isSell == 1}">
